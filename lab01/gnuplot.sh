@@ -3,7 +3,7 @@ set samples 500
 
 set output "x_t.eps" # nazwa pliku wynikowego
 set title "Wychylenie x(t)" # tytul wykresu
-set xlabel "t" # etykieta osi OX
+set xlabel "t[s]" # etykieta osi OX
 set ylabel "x(t)" # etykieta osi OY
 set grid # wlaczenie widoczności siatki pomocniczej
 plot "out.dat" w p t "x(t), dt = 0.1", cos(x) t "cos(t)"
