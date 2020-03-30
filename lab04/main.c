@@ -8,9 +8,10 @@ int kdelta(int i, int j);
 const int n = 200;
 const double N = 1.0;
 const double L = 10.0;
-const double dx = L/(n+1);
 
 int main(int argc, const char *argv[]) {
+
+	const double dx = L/(n+1);
 
 	gsl_matrix* mA = gsl_matrix_calloc(n, n);
 	gsl_matrix* mB = gsl_matrix_calloc(n, n);
@@ -37,6 +38,7 @@ int main(int argc, const char *argv[]) {
 		gsl_eigen_gensymmv_sort(eval, evec, GSL_EIGEN_SORT_ABS_ASC);
 
 		//Printing eval values
+		fprintf(eval_f, "%d ", alpha);
 		for (int i = 0; i < 6; i++) {
 			fprintf(eval_f, "%lf ", sqrt(gsl_vector_get(eval, i)));
 		}
@@ -59,7 +61,14 @@ int main(int argc, const char *argv[]) {
 			}
 		}
 	}
+	gsl_matrix_free(mA);
+	gsl_matrix_free(mB);
+	gsl_matrix_free(evec);
+	gsl_vector_free(eval);
+	gsl_eigen_gensymmv_free(w);
 
+	fclose(evec_f);
+	fclose(eval_f);
 	return 0;
 }
 
