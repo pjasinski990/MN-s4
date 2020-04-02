@@ -33,7 +33,7 @@ int main(int argc, const char *argv[]) {
 		}
 	}
 
-	// All that jazz
+	// Loop
 	for (int k = 0; k < k_val; k++) {
 		fill_with_ones(x_k, n);
 
