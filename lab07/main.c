@@ -7,7 +7,7 @@ double poly(double x, int n, double* xm, double* fm);
 int main(int argc, char const *argv[])
 {
     const int n = 6;
-    const double step = 0.1;
+    const double step = 0.01;
     FILE* f_uneven = fopen("zad_1.dat", "w");
     FILE* f_even = fopen("zad_2.dat", "w");
 
@@ -33,11 +33,21 @@ int main(int argc, char const *argv[])
     diff_quotient(xm_even, ym_even, fm_even, n+1);
     for (double x = -5.0; x <= 5.0; x += step)
     {
-        fprintf(f_uneven, "%.1f %f\n", x, poly(x, n, xm, fm));
-        fprintf(f_even, "%.1f %f\n", x, poly(x, n, xm_even, fm_even));
+        fprintf(f_uneven, "%.2f %f\n", x, poly(x, n, xm, fm));
+        fprintf(f_even, "%.2f %f\n", x, poly(x, n, xm_even, fm_even));
     }
     
-
+    printf("Ilorazy roznicowe dla nierowno rozmieszczonych wezlow:\n");
+    for (int i = 0; i < n+1; i++) 
+    {
+    	printf("%g\n", fm[i]);
+    }
+    printf("\n");
+    printf("Ilorazy roznicowe dla rowno rozmieszczonych wezlow:\n");
+    for (int i = 0; i < n+1; i++) 
+    {
+    	printf("%g\n", fm_even[i]);
+    }
 
     fclose(f_uneven);
     fclose(f_even);
