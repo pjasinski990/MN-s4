@@ -37,6 +37,10 @@ int main(int argc, char const *argv[])
         float* c = vector(0, n+1);
     
         // Filling stuff
+        for (int i = -2; i <= n+3; i++) 
+        {
+            xw[i] = xmin + (i-1)*h;
+        }
         for (size_t i = 1; i <= n; i++)
         {
             for (size_t j = 1; j <= n; j++)
@@ -44,10 +48,8 @@ int main(int argc, char const *argv[])
                 mA[i][j] = 0.0f;
             }
             mA[i][i] = 4.0f;
-            xw[i] = xmin + (i-1)*h;
             yw[i] = b[i][1] = f1(xw[i]);
         }
-        xw[-2] = xw[-1] = xw[0] = xw[n+1] = xw[n+2] = xw[n+3] = 0.0f;
         b[1][1] += h/3.0f * alpha;
         b[n][1] -= h/3.0f * beta;
 
@@ -96,6 +98,10 @@ int main(int argc, char const *argv[])
         float* c = vector(0, n+1);
     
         // Filling stuff
+        for (int i = -2; i <= n+3; i++) 
+        {
+            xw[i] = xmin + (i-1)*h;
+        }
         for (size_t i = 1; i <= n; i++)
         {
             for (size_t j = 1; j <= n; j++)
@@ -103,10 +109,8 @@ int main(int argc, char const *argv[])
                 mA[i][j] = 0.0f;
             }
             mA[i][i] = 4.0f;
-            xw[i] = xmin + (i-1)*h;
             yw[i] = b[i][1] = f2(xw[i]);
         }
-        xw[-2] = xw[-1] = xw[0] = xw[n+1] = xw[n+2] = xw[n+3] = 0.0f;
         b[1][1] += h/3.0f * alpha;
         b[n][1] -= h/3.0f * beta;
 
