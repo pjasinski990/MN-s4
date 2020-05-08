@@ -57,13 +57,17 @@ int main(int argc, char const *argv[])
     }
 
     // Printing to points file
-    for (int i = 0; i < sizeof(functions)/sizeof(*functions); i++)
+    for (int i = 0; i < sizeof(functions)/sizeof(*functions)-1; i++)
     {
         for (int j = 0; j < n; j++)
         {
             fprintf(f_points, "%f %f\n", x[j], functions[i](x[j]));
         }
         fprintf(f_points, "\n\n");
+    }
+    for (int j = 0; j < n; j++)
+    {
+        fprintf(f_points, "%f %f\n", x[j], y4[j]);
     }
 
     // Printing to approx1
@@ -115,6 +119,7 @@ int main(int argc, char const *argv[])
     }
     
     // Printing to approx3
+    // MS = 5, MC = 0
     for (int i = 0; i <= MS[0] + 1; i++)
     {
         double sum = 0.0;
@@ -124,12 +129,20 @@ int main(int argc, char const *argv[])
         }
         a[i] = 2.0*sum / n;
     }
+    double sum = 0.0;
+    for (int j = 0; j < n; j++)
+    {
+        sum += y3[j]; // * cos(0);
+    }
+    b[0] = 2.0*sum / n;
+
     for (double d = xmin; d <= xmax; d+=dx)
     {
         fprintf(f_data3, "%f %f\n", d, F(d, a, b, MS[0], 0));
     }
     fprintf(f_data3, "\n\n");
-    
+
+    // Rest of MS, MC values   
     for (int m = 0; m < 2; m++)
     {
         for (int i = 0; i <= MS[m] + 1; i++)
