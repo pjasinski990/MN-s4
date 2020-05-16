@@ -20,6 +20,7 @@ int main(int argc, char const *argv[])
     FILE* f_eps1 = fopen("eps1.dat", "w");
     FILE* f_eps2 = fopen("eps2.dat", "w");
 
+    fprintf(f_eps1, "%g %g\n", x0, y0);
     for (int i = 0; i < it_max; i++)
     {
         x1 = x0 - h * dfdx(x0, y0, dx);
@@ -36,6 +37,7 @@ int main(int argc, char const *argv[])
 
     x0 = -0.75;
     y0 = 1.75;
+    fprintf(f_eps2, "%g %g\n", x0, y0);
     for (int i = 0; i < it_max; i++)
     {
         x1 = x0 - h * dfdx(x0, y0, dx);
