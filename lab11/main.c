@@ -59,9 +59,9 @@ int main()
         float max_val = fabs(f[1]);
         for (int i = 2; i <= n; i++)
         {
-            if (max_val < fabs(f[i]))
+            if (max_val < fabs(f[2*i - 1]))
             {
-                max_val = fabs(f[i]);
+                max_val = fabs(f[2*i - 1]);
             }
         }
 
