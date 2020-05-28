@@ -26,9 +26,9 @@ int main(int argc, char const *argv[])
 
 
     const char* header = "D[w][0]\t\tD[w][w]\n";
-    fprintf(f_fun1, header);
-    fprintf(f_fun2, header);
-    fprintf(f_fun3, header);
+    fprintf(f_fun1, "%s", header);
+    fprintf(f_fun2, "%s", header);
+    fprintf(f_fun3, "%s", header);
 
     for (int i = 0; i < 8; i++)
     {
@@ -84,12 +84,13 @@ void rombergCalculate(double** matrix, int m_size, double a, double b, double(*f
         }
         matrix[w][0] = 0.5 * matrix[w-1][0] + hw * sum;
 
-        for (int k = 1; k < m_size; k++)
+    }
+
+    for (int k = 1; k < m_size; k++)
+    {
+        for (int w = k; w < m_size; w++)
         {
-            for (int w = k; w < m_size; w++)
-            {
-                matrix[w][k] = (pow(4, k) * matrix[w][k-1] - matrix[w-1][k-1]) / (pow(4, k) - 1);
-            }
+            matrix[w][k] = (pow(4, k) * matrix[w][k-1] - matrix[w-1][k-1]) / (pow(4, k) - 1);
         }
     }
 }
