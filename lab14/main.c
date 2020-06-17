@@ -2,11 +2,20 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <math.h>
+#include "gammln.c"
+#include "gammp.c"
+#include "gcf.c"
+#include "gser.c"
+#include "nrutil.h"
+#include "nrutil.c"
 
 double rand_linear(long a, long c, long m, int version);
 double find_mu(double* numbers, int N);
 double find_var(double* numbers, int N);
 void make_histogram(double* numbers, int N, double min, double max, int* bins, int binN);
+
+double normal_distribution(double x, double mu, double sigma);
+double calc_pj(double xmin, double xmax, double mu, double sigma);
 
 double normal_density(double x, double mu, double sigma);
 double rand_normal(double mu, double sigma, double d);
@@ -85,11 +94,12 @@ int main(int argc, char const *argv[])
     }
     double normal_mu = find_mu(normal_arr, N);
     double normal_var = find_var(normal_arr, N);
+    double normal_sigma = sqrt(normal_var);
 
     printf("Normal distribution\n");
     printf("mu value: %g\n", normal_mu);
     printf("variation value: %g\n", normal_var);
-    printf("sigma value: %g\n\n", sqrt(normal_var));
+    printf("sigma value: %g\n\n", normal_sigma);
 
     //Normal histogram
     FILE* file_normal_hist = fopen("N_hist.dat", "w");
@@ -101,6 +111,24 @@ int main(int argc, char const *argv[])
     {
         fprintf(file_normal_hist, "%g %g\n", xmin + bin_width_normal/2.0 + i*bin_width_normal, (double)normal_hist[i]/N);
     }
+
+    // Testing
+    double xtest = 0.0;
+    for (int j = 0; j < 12; j++)
+    {   
+        double pj = calc_pj(xmin + j*bin_width_normal, xmin + (j+1)*bin_width_normal, mu, sigma);
+        printf("j = %d, pj = %g\n", j, pj);
+        xtest += pow((normal_hist[j] - N*pj), 2) / (N * pj);
+    }
+    double conf = gammp(9.0f/2.0f, xtest/2.0f);
+    double sign = 1.0 - conf;
+
+    printf("\n");
+    printf("X^2 = %g\n", xtest); // = 14.982
+                                 // with nu = 9, eps = 16.91 for a = 0.05 => not rejected
+    printf("confidence: %g\n", conf);
+    printf("significance: %g\n", sign);
+
 
     free(linear_arr1);
     free(linear_arr2);
@@ -192,4 +220,14 @@ double rand_normal(double mu, double sigma, double d)
         u2 *= d;
     } while (u2 > normal_density(u1, mu, sigma));
     return u1;
+}
+
+double normal_distribution(double x, double mu, double sigma)
+{
+    return (1.0 + erf((x - mu) / (sqrt(2) * sigma))) / 2.0;
+}
+
+double calc_pj(double xmin, double xmax, double mu, double sigma)
+{
+    return normal_distribution(xmax, mu, sigma) - normal_distribution(xmin, mu, sigma);
 }
